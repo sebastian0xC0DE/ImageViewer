@@ -1,5 +1,8 @@
 #include <SDL3/SDL.h>
 
+#define WIDTH 900
+#define HEIGHT 600
+
 int main() {
 
     // Initialize the SDL Video
@@ -9,7 +12,7 @@ int main() {
     }
     
     // Create a window 900x600
-    SDL_Window *window = SDL_CreateWindow("ImageViewer", 900, 600, 0);
+    SDL_Window *window = SDL_CreateWindow("ImageViewer", WIDTH, HEIGHT, 0);
 
     if (window == NULL) {
         SDL_Log(SDL_GetError());
@@ -29,10 +32,23 @@ int main() {
     }
 
     // "paint" the window
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x0, 0x0, 0xFF);
+    SDL_SetRenderDrawColor(renderer, 0x0, 0x0, 0x0, 0xFF);
     SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
+    
+    SDL_FRect pixel = {0, 0, 1, 1};
+    
+    for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < HEIGHT; y++) {
+            pixel.x = x;
+            pixel.y = y;     
+            
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0x0, 0x0, 0xFF);
+            
+            SDL_RenderFillRect(renderer, &pixel);
+        }
+    }
 
+    SDL_RenderPresent(renderer);
     // Create an event to display the window
     char running = 1;
     SDL_Event event;
