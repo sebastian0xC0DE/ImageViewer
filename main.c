@@ -3,15 +3,15 @@
 
 int main() {
 
-    char fileLocation[100];
+    char filePath[100];
     
     printf("Enter the full path to the image:\n");
     
-    fgets(fileLocation, sizeof(fileLocation), stdin);
+    fgets(filePath, sizeof(fileLocation), stdin);
     // Remove \n from the end of the string
-    fileLocation[strcspn(fileLocation, "\n")] = '\0';
-
-    // Open the Image
+    filePath[strcspn(fileLocation, "\n")] = '\0';
+    
+    // Open the image
     FILE *pf = fopen(fileLocation, "rb");
 
     // Verify if the image exists
@@ -26,7 +26,7 @@ int main() {
     unsigned int heigth;
     char brightestPixel[10];
 
-    // Get the image type (P6)
+    //Get the image type (P6)
     fgets(ImageType, 4, pf);
 
     // Get the image comment
@@ -70,7 +70,7 @@ int main() {
     
     SDL_FRect pixel = {0, 0, 1, 1};
     unsigned char pixelColor[3];
-    for (unsigned int y = 0; y < heigth; y++) {
+    for (unsigned int y = 0; y < height; y++) {
         for (unsigned int x = 0; x < width; x++) {
             pixel.x = x;
             pixel.y = y;
