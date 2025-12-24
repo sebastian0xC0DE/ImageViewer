@@ -10,7 +10,7 @@ Image *loadImage(const char *path) {
     FILE *pf = fopen(path, "r");
     
     if (pf == NULL) {
-        printf("Error: Failed on load image");
+        printf("Error: Failed on load image\n");
         return NULL;
     };
 

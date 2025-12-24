@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "image.h"
 #include "ppm.h"
@@ -28,7 +29,15 @@ Image *loadPPM(const char *path) {
 
     img->pixels = malloc(img->width * img->height * 3);
 
-    fread(img->pixels, 1, img->width * img->height * 3, pf);
+    if (strcmp(imgType, "P6\n") == 0) {
+        fread(img->pixels, 1, img->width * img->height * 3, pf);
+    } else if (strcmp(imgType, "P3\n") == 0) {
+        for (int i = 0; i < (img->width * img->height * 3); i++) {
+            int v;
+            fscanf(pf, "%d\n", &v);
+            img->pixels[i] = (unsigned char)v;
+        }
+    }
 
     return img;
 }
