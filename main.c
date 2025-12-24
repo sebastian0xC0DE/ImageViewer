@@ -87,6 +87,8 @@ int main() {
         }
         SDL_Delay(16); // Aprox. 60 FPS
     }
+    
+    freeImage(img);
 
     // Close the window
     SDL_DestroyWindow(window);
