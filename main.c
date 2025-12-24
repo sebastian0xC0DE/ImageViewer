@@ -13,11 +13,12 @@ int main() {
     // Remove \n from the end of the string
     filePath[strcspn(filePath, "\n")] = '\0';
     
-    int funcao = loadImage(filePath);
-    
-    printf("%d\n", funcao);    
+    Image *img = loadImage(filePath);  
 
-    return 0;
+    if (img == NULL) {
+        printf("img é null\n");
+        return -1;
+    }
 
     // Initialize the SDL Video
     if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -26,7 +27,7 @@ int main() {
     }
     
     // Create a window 900x600
-    SDL_Window *window = SDL_CreateWindow("ImageViewer", 900, 600, 0);
+    SDL_Window *window = SDL_CreateWindow("ImageViewer", img->width, img->height, 0);
 
     if (window == NULL) {
         SDL_Log(SDL_GetError());
@@ -50,15 +51,22 @@ int main() {
     SDL_RenderClear(renderer);
     
     SDL_FRect pixel = {0, 0, 1, 1};
+    int index;
     //unsigned char pixelColor[3];
-    for (unsigned int y = 0; y < 600; y++) {
-        for (unsigned int x = 0; x < 900; x++) {
+    for (int y = 0; y < img->height; y++) {
+        for (int x = 0; x < img->width; x++) {
             pixel.x = x;
             pixel.y = y;
             
             //fread(pixelColor, 1, 3, pf);     
             
-            SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            index = (y * img->width + x) * 3;
+
+            unsigned char r = img->pixels[index];
+            unsigned char g = img->pixels[index + 1];
+            unsigned char b = img->pixels[index + 2];
+
+            SDL_SetRenderDrawColor(renderer, r, g, b, 0xFF);
             
             SDL_RenderFillRect(renderer, &pixel);
         }
