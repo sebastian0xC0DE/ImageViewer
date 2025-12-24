@@ -1,42 +1,23 @@
 #include <SDL3/SDL.h>
 #include <stdio.h>
 
+#include "image.h"
+
 int main() {
 
     char filePath[100];
     
     printf("Enter the full path to the image:\n");
     
-    fgets(filePath, sizeof(fileLocation), stdin);
+    fgets(filePath, sizeof(filePath), stdin);
     // Remove \n from the end of the string
-    filePath[strcspn(fileLocation, "\n")] = '\0';
+    filePath[strcspn(filePath, "\n")] = '\0';
     
-    // Open the image
-    FILE *pf = fopen(fileLocation, "rb");
+    int funcao = loadImage(filePath);
+    
+    printf("%d\n", funcao);    
 
-    // Verify if the image exists
-    if (pf == NULL) {
-        printf("Error on image loading\n");
-        return -1;
-    }
-
-    char ImageType[4];
-    char comment[50];
-    unsigned int width;
-    unsigned int heigth;
-    char brightestPixel[10];
-
-    //Get the image type (P6)
-    fgets(ImageType, 4, pf);
-
-    // Get the image comment
-    fgets(comment, 50, pf);
-
-    // Get the image dimensions
-    fscanf(pf, "%u %u\n", &width, &heigth);
-
-    // Get the value of the brightest subpixel
-    fgets(brightestPixel, 10, pf);
+    return 0;
 
     // Initialize the SDL Video
     if (!SDL_Init(SDL_INIT_VIDEO)) {
@@ -45,7 +26,7 @@ int main() {
     }
     
     // Create a window 900x600
-    SDL_Window *window = SDL_CreateWindow("ImageViewer", width, heigth, 0);
+    SDL_Window *window = SDL_CreateWindow("ImageViewer", 900, 600, 0);
 
     if (window == NULL) {
         SDL_Log(SDL_GetError());
@@ -69,15 +50,15 @@ int main() {
     SDL_RenderClear(renderer);
     
     SDL_FRect pixel = {0, 0, 1, 1};
-    unsigned char pixelColor[3];
-    for (unsigned int y = 0; y < height; y++) {
-        for (unsigned int x = 0; x < width; x++) {
+    //unsigned char pixelColor[3];
+    for (unsigned int y = 0; y < 600; y++) {
+        for (unsigned int x = 0; x < 900; x++) {
             pixel.x = x;
             pixel.y = y;
             
-            fread(pixelColor, 1, 3, pf);     
+            //fread(pixelColor, 1, 3, pf);     
             
-            SDL_SetRenderDrawColor(renderer, pixelColor[0], pixelColor[1], pixelColor[2], 0xFF);
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
             
             SDL_RenderFillRect(renderer, &pixel);
         }
