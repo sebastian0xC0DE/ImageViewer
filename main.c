@@ -26,7 +26,7 @@ int main() {
         return -1;
     }
     
-    // Create a window 900x600
+    // Create a window with the same dimensions as the image
     SDL_Window *window = SDL_CreateWindow("ImageViewer", img->width, img->height, 0);
 
     if (window == NULL) {
@@ -52,26 +52,25 @@ int main() {
     
     SDL_FRect pixel = {0, 0, 1, 1};
     int index;
-    //unsigned char pixelColor[3];
+
+    // It scans the entire window checking the color of the image pixels and reproducing them
     for (int y = 0; y < img->height; y++) {
         for (int x = 0; x < img->width; x++) {
             pixel.x = x;
             pixel.y = y;
-            
-            //fread(pixelColor, 1, 3, pf);     
-            
+            // Calculate the pixel index
             index = (y * img->width + x) * 3;
 
             unsigned char r = img->pixels[index];
             unsigned char g = img->pixels[index + 1];
             unsigned char b = img->pixels[index + 2];
-
+            // Render the pixel with the right color
             SDL_SetRenderDrawColor(renderer, r, g, b, 0xFF);
             
             SDL_RenderFillRect(renderer, &pixel);
         }
     }
-
+    // Present the image render
     SDL_RenderPresent(renderer);
     // Create an event to display the window
     char running = 1;
@@ -87,7 +86,7 @@ int main() {
         }
         SDL_Delay(16); // Aprox. 60 FPS
     }
-    
+    // Frees up memory
     freeImage(img);
 
     // Close the window
