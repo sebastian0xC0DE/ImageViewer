@@ -8,4 +8,5 @@
 <h2>How to use it:</h2>
 <code>git clone https://github.com/Sebastianbvm/ImageViewer.git</code> <br>
 <code>cd ImageViewer</code> <br>
+<code>sudo dnf install SDL3 SDL3-devel</code> <br>
 <code>gcc -o viewer main.c image.c ppm.c $(pkg-config --cflags --libs sdl3) && ./viewer</code>
